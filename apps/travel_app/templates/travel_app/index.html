@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Travel Dashboard</title>
+	</head>
+	<body>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+				 	<p style="color: red">{{message}}</p>
+				{% endif %}
+				{% if message.tags == 'success' %}
+				 	<p style="color: green">{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		<h4>Hello, {{request.session.user_name}}!</h4>
+		<a href="/logout">Logout</a>
+		<h5>
+		Your Trip Schedules
+		</h5>
+		<p>
+			<table>
+				<tr>
+					<td>Destination</td>
+					<td>Travel Start Date</td>
+					<td>Travel End Date</td>
+					<td>Plan</td>
+					<td></td>
+				</tr>
+				{% for trip in trips %}
+				<tr>
+					<td><a href="/destination/{{trip.id}}">{{trip.destination}}</a></td>
+					<td> {{trip.date_from}}  </td>
+					<td>{{trip.date_to}}</td>
+					<td>{{trip.description}}</td>
+					<td>
+						<form action="/delete/{{trip.id}}" method="post">
+							{% csrf_token %}
+						 	<input type="submit" name="submit" value="Delete">
+						 	
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</p>
+		<h5>
+		Other Users' Travel Plans
+		</h5>
+		<p>
+			<table>
+				<tr>
+					<td>Name</td>
+					<td>Destination</td>
+					<td>Travel Start Date</td>
+					<td>Travel End Date</td>
+					<td>Plan</td>
+					<td>Do you want to join?</td>
+				</tr>
+				{% for trip in other_trips %}
+					
+						<tr>
+							<td>{{trip.coordinator.name}}</td>
+							<td><a href="/destination/{{trip.id}}">{{trip.destination}}</a></td>
+							<td> {{trip.date_from}}  </td>
+							<td>{{trip.date_to}}</td>
+							<td>{{trip.description}}</td>
+							<td>
+								<a href="/join/{{trip.id}}"> Join </a>	 	
+							</td>
+						</tr>	
+					
+				{% endfor %}
+			</table>
+			
+
+
+		</p>
+		<a href="/add">Add Travel Plan</a>
+	</body>
+</html>

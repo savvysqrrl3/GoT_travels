@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Travel Login Page</title>
+	</head>
+	<body>
+	{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+				 	<p style="color: red">{{message}}</p>
+				{% endif %}
+				{% if message.tags == 'success' %}
+				 	<p style="color: green">{{message}}</p>
+				{% endif %}
+				{% if message.tags == 'logout' %}
+				 	<p style="color: green">{{message}}</p>
+				{% endif %}
+				
+			{% endfor %}
+		{% endif %}
+		<h2>Welcome!</h2>
+
+		<h4>Log in</h4>
+		<form action="/login" method="post">
+			{% csrf_token %}
+			<p>Username:  <input type="text" name="user_name"></p>
+			<p>Password:  <input type="password" name="pw"></p>
+			<input type="hidden" name="id" value="user_id">
+			<p><input type="submit" name="submit" value="Log In"></p>
+		</form>
+
+		<h4>Register</h4>
+		<form action="/register" method="post">
+			{% csrf_token %}
+			<p>Name:  <input type="text" name="name"></p>
+			<p>Username:  <input type="text" name="user_name"></p>
+			<p>Password:  <input type="password" name="pw"></p>
+			<p>Confirm password:  <input type="password" name="confirmpw"></p>
+			<p><input type="submit" name="submit" value="Register"></p>
+		</form>
+	</body>
+</html>

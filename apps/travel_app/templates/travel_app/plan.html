@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Add Plan</title>
+	</head>
+	<body>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+				 	<p style="color: red">{{message}}</p>
+				{% endif %}
+				{% if message.tags == 'success' %}
+				 	<p style="color: green">{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		<a href="/travels">Home</a>      <a href="/logout">Logout</a>
+		<h4>Add a Trip </h4>
+		<form action="/addTrip" method="post">
+		{% csrf_token %}
+			Destination:  <input type="text" name="destination">
+			<p>Description:  <input type="text" name="description"></p>
+			<p>Travel Date From: <input type="text" name="date_from"></p>
+			<p>Travel Date To: <input type="text" name="date_to"></p>
+			<input type="hidden" name="trip_id" value="trip_id">
+			<input type="hidden" name="coordinator" value="{{request.session.id}}">
+			<input type="submit" name="submit" value="Add">	
+		</form>
+	</body>
+</html>
